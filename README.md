@@ -1,9 +1,11 @@
-# 48033-IoT-WPW-System
+# 48033 IoT WPW System
 ## Weather Prediction and Warning System Web Application
 ###### Group 3 Project 1 99137806, 11972078, 12428330
 
 ========================================================
+
 Usage: Webpage HTML
+
 ========================================================
 
 ## Getting Started
