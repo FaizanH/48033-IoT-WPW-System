@@ -24,4 +24,4 @@ The system predicts their occurrence (time, location, and period) on daily and w
 ### Developement
 ##Update Logs
 
-![alt text]("https://scontent-syd2-1.xx.fbcdn.net/v/t35.0-12/21216030_2043000939059040_433262618_o.png?oh=1672c437f092e6b1ca789a6004c311e5&oe=59B78A54 "RT Weather main screen sketch")
+![alt text](https://scontent-syd2-1.xx.fbcdn.net/v/t35.0-12/21216030_2043000939059040_433262618_o.png?oh=1672c437f092e6b1ca789a6004c311e5&oe=59B78A54 "RT Weather main screen sketch")
