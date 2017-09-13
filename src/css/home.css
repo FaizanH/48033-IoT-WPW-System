@@ -591,7 +591,7 @@ section {
 }
 
 .button-dash {
-
+  display: inline-block;
   margin: 0 auto;
   border-radius: 12px;
   background: #D3D7D8;
