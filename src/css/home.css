@@ -591,18 +591,16 @@ section {
 }
 
 .button-dash {
-   display: inline-table;
-   margin: 0 auto;
-   padding: .618em 2em;
-   border-radius: 12px;
-   background: #D3D7D8;
-   color: #fff!important
-   font-size: 0px;
-   padding: 80px 60px;
-   text-align: center;
-   margin-left: 48px;
-   /*min-width: 5;*/
-
+  display: inline-block;
+  margin: 0 auto;
+  border-radius: 12px;
+  background: #D3D7D8;
+  text-align: center;
+  margin-left: 48px;
+  width: 20%;
+  min-width: 200px;
+  padding: 50px 0;
+  height: 100%;
 }
 
 .button-dash:hover {
