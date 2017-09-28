@@ -1,15 +1,10 @@
 body
 {
- background-color:#1B7FC2;
+ background-color:#FFF;
  font-size: 16px;
  font-family: 'Lato', sans-serif;
  font-weight: 300;
  margin: 0;
- color: #666;
-}
-
-.container {
-  margin: auto;
 }
 
 /* Typography */
@@ -20,16 +15,6 @@ h1 {
 	letter-spacing: 1px;
 	font-size: 1.4em;
 	line-height: 2.8em;
-}
-
-.top {
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	background: -moz-linear-gradient(top,  rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top,  rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom,  rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
 }
 
 .login-box {

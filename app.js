@@ -6,8 +6,8 @@
 /**
  * Module dependencies.
  */
- 
- 
+
+
  //https://github.com/skylarstein/pi-weather-station
 
 var express = require('express')
@@ -27,7 +27,7 @@ var express = require('express')
     , bodyParser = require('body-parser')
     , util = require('util')
 	, SensorTag = require('sensortag'); 	// sensortag library
-     
+
 var sys = require('sys');
 const sqlite3 = require('sqlite3').verbose();  //database SQLite
 
@@ -41,7 +41,7 @@ var sensorTagDb = './db/sensorTagData.db'
 //var child;
 
 // all environments
-app.set('port', process.env.PORT || 3000); 
+app.set('port', process.env.PORT || 3000);
 // Using the .html extension instead of
 // having to name the views as *.ejs
 app.engine('.html', require('ejs').__express);
@@ -93,7 +93,7 @@ db = new sqlite3.Database(sensorTagDb, (err) => {
 });
 
 //sqliteDB.getSchema(db);
-	
+
 /*db.serialize(function() {
 	sqliteDB.insertRows(db,20,25);
 	sqliteDB.readAllRows(db);
@@ -138,7 +138,7 @@ io.on('connection', function(socket){
         socket.emit('timer_tick', { string: getTimeStampLog()});
     }, 1000);
 
-	
+
 });
 
 // =================================================================================

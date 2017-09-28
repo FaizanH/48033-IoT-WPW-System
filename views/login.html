@@ -1,28 +1,48 @@
+<!doctype html>
 <html>
-<head>
-<link rel="stylesheet" type="text/css" href="../public/css/login_style.css">
-</head>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../public/css/login_style.css">
+    <script src="../public/js/login.js"></script>
+  </head>
 
-<body>
+  <body>
+    <!-- Facebook Javascript SDK Init -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=807890339335986";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
 
-  	<div class="container">
-  		<div class="login-box">
-  			<div class="box-header">
-  				<h1>Log In</h1>
-  			</div>
-  			<label for="username">Username</label>
-  			<br/>
-  			<input type="text" id="username">
-  			<br/>
-  			<label for="password">Password</label>
-  			<br/>
-  			<input type="password" id="password">
-  			<br/>
-  			<button type="submit">Sign In</button>
-  			<br/>
-  			<a href="#"><p class="small">Forgot your password?</p></a>
+  	<div class="login-box">
+  		<div class="box-header">
+  			<h1>Log In</h1>
   		</div>
+      <br/>
+      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="DoLogin();"></div>
+      <br/><br/>
+      <label for="username">Username</label>
+  		<br/>
+  		<input type="text" id="username">
+  		<br/>
+  		<label for="password">Password</label>
+  		<br/>
+  		<input type="password" id="password">
+  		<br/>
+  		<button type="submit">Sign In</button>
+  		<br/>
+  		<a href="#"><p class="small">Forgot your password?</p></a>
+      <br/>
+      <div
+        class="fb-like"
+        data-share="true"
+        data-width="450"
+        data-show-faces="true"
+        style="padding-left: 30px;">
+      </div>
   	</div>
-
-</body>
+  </body>
 </html>

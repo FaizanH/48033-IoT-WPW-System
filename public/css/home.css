@@ -353,32 +353,26 @@ body {
 
 #submit
 {
-    background-color: #00D9D9;
-    background-image: linear-gradient(#00D9D9, #00FFFF);
-    border-radius: 3px 50px 50px 3px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #00B3B3;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3),
-                0 1px 0 rgba(255, 255, 255, 0.3) inset;
-    height: 35px;
-    margin: 20px 0px 0px 10px;
-    padding: 0;
-    width: 45px;
-    cursor: pointer;
-    font: bold 14px Arial, Helvetica;
-    color: #23441e;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-    outline-width: 0;
+  margin-top: 20px;
+  width: 40px;
+	border: 0;
+	color: white;
+	padding: 11px;
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 0.7em;
+	letter-spacing: 1px;
+	background-color: #2b5797;
+	cursor:pointer;
+	outline: none;
 }
 
 #submit:hover {
-    background-color: #00B3B3;
-    background-image: linear-gradient(#00FFFF, #00B3B3);
+    background-color: #4571B1;
 }
 
 #submit:active {
-    background: #00D9D9;
+    background: #2b5797;
     outline: none;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
 }
@@ -409,17 +403,17 @@ body {
   white-space: nowrap;
 }
 
-  a.tweetbutton:hover,
-  a.tweetbutton:focus {
-    background-color: #dedede;
-  }
+a.tweetbutton:hover,
+a.tweetbutton:focus {
+  background-color: #dedede;
+}
 
-  /* Color Highlight for keyboard navigation */
+/* Color Highlight for keyboard navigation */
 
-  a.tweetbutton:focus {
-    outline: none;
-    border-color: #0089cb;
-  }
+a.tweetbutton:focus {
+  outline: none;
+  border-color: #0089cb;
+}
 
 .search_components {
     margin-top: 20px;
@@ -429,47 +423,54 @@ body {
 }
 
 .container {
-   margin: 0 auto;
-   max-width: 67em;
-   padding: 0 1em
+  margin: 0 auto;
+  max-width: 67em;
+  padding: 0 1em
 }
 
 /* The side navigation menu */
 .sidenav {
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0;
-    left: 0;
-    background-color: #111; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  background-color: rgb(0,0,0); /* Black fallback color */
+  background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide out */
+}
+
+.sidenav-content {
+  position: relative;
+  top: 25%; /* 25% from the top */
+  width: 100%; /* 100% width */
+  text-align: center; /* Centered text/links */
+  margin-top: 30px; /* 30px top margin to avoid conflict with close button */
 }
 
 /* The navigation menu links */
 .sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block; /* Display block instead of inline */
+  transition: 0.3s; /* Transition effects on hover (color) */
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover, .offcanvas a:focus{
-    color: #f1f1f1;
+  color: #f1f1f1;
 }
 
 /* Position and style the close button (top right corner) */
 .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
 }
 
 .menu {
@@ -578,6 +579,13 @@ section {
 
 .hero-shot a:hover {
    text-decoration: underline
+}
+
+.nav-link {
+  position: fixed;
+  margin: 19px -30px;
+  cursor: pointer;
+  font-size: 2.3em
 }
 
 .button-cta {
@@ -699,8 +707,11 @@ footer {
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+  .sidenav a {font-size: 20px}
+  .sidenav .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
 }
 
 @media handheld,
