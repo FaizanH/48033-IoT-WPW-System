@@ -14,26 +14,24 @@
       js = d.createElement(s); js.id = id;
       js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=807890339335986";
       fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    </script>
+    }(document, 'script', 'facebook-jssdk'));</script>
 
   	<div class="login-box">
   		<div class="box-header">
   			<h1>Log In</h1>
   		</div>
       <br/>
-      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="DoLogin();"></div>
+      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
       <br/><br/>
       <label for="username">Username</label>
   		<br/>
-  		<input type="text" id="username">
+  		<input type="text" id="usr">
   		<br/>
   		<label for="password">Password</label>
   		<br/>
-  		<input type="password" id="password">
+  		<input type="password" id="pwd">
   		<br/>
-  		<button type="submit">Sign In</button>
-  		<br/>
+  		<input type="submit" onClick="loginAdmin()">
   		<a href="#"><p class="small">Forgot your password?</p></a>
       <br/>
       <div

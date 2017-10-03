@@ -254,20 +254,6 @@ textarea {
    box-sizing: border-box
 }
 
-.row {
-   width: 100%
-}
-
-.row:after,
-.row:before {
-   content: " ";
-   display: table
-}
-
-.row:after {
-   clear: both
-}
-
 .col-1-2 {
    float: left;
    width: 50%;
@@ -401,13 +387,34 @@ body {
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+/* Modal Header */
+.modal-header {
+    padding: 2px 16px;
+    background-color: #34495e;
+    color: white;
+}
+
 /* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+  position: relative;
+  margin: 15% auto; /* 15% from the top and centered */
+  background-color: #fefefe;
+  padding: 0px;
+  border: 1px solid #888;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  width: 60%; /* Could be more or less, depending on screen size */
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 2px 16px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #111;
+    color: white;
 }
 
 /* The Close Button */
@@ -423,7 +430,19 @@ body {
     color: black;
     text-decoration: none;
     cursor: pointer;
-} 
+}
+
+.column {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
 
 .tweetbutton {
   /* Buttonish */
