@@ -61,18 +61,48 @@
           <h2 class="headline">$Event_name Weather Predictions</h2>
           <p style="padding:10px"> </p>
           <div>
-            <div>
-              <a class="button-dash" href="#">Temperature<br>34 Degrees</a>
-              <a class="button-dash" href="#">Solar Exposure<br>18.9</a>
-              <a class="button-dash" href="#">Rain<br>12%</a>
-              <a class="button-dash" href="#">Wind<br>70kph</a>
+            <div>	<!-- Trigger/Open The Modal -->
+              <a class="button-dash" id="btnTemp">Temperature<br>34 Degrees</a>
+              <a class="button-dash" id="btnSolar">Solar Exposure<br>18.9</a>
+              <a class="button-dash" id="btnRain">Rain<br>12%</a>
+              <a class="button-dash" id="btnWind">Wind<br>70kph</a>
             </div>
           </div> <!-- row -->
         </div> <!-- container -->
 
+		<!-- Modals -->
+		<div id="modalTemp" class="modal">
+		  <!-- Modal content -->
+		  <div class="modal-content">
+			<span class="close">&times;</span>
+			<p>Temp modal</p>
+		  </div>
+		</div>
+		<div id="modalSolar" class="modal">
+		  <!-- Modal content -->
+		  <div class="modal-content">
+			<span class="close">&times;</span>
+			<p>Solar modal</p>
+		  </div>
+		</div>
+		<div id="modalRain" class="modal">
+		  <!-- Modal content -->
+		  <div class="modal-content">
+			<span class="close">&times;</span>
+			<p>Rain modal</p>
+		  </div>
+		</div>
+		<div id="modalWind" class="modal">
+		  <!-- Modal content -->
+		  <div class="modal-content">
+			<span class="close">&times;</span>
+			<p>Wind modal</p>
+		  </div>
+		</div>
+
         <div class="container">
           <div id="lower-container" class="clower">
-            <div id="lower-advice" class="container clleft">
+<!--             <div id="lower-advice" class="container clleft">
               <h3>Our Advice*</h3>
               <p> ‣	Advice based on temperature </P>
               <p> ‣	Advice based on Solar exposure</p>
@@ -80,7 +110,7 @@
               <p> ‣	Advice based on Wind </p>
               <p> ‣	Advice based other sources </p>
               <p><i>* this advice is genrated based pre-assigned evaluations of venue sensor data and weather.com data. </i> </p>
-            </div>
+            </div> -->
 
             <div id="lower-info" class="container clright">
               <center> <h3 >Event Info</h3> </center>
@@ -133,6 +163,7 @@
     <script src="vendor/jquery.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="../public/js/main.js"></script>
+	<script src="../public/js/modal.js"></script>
 
     <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
     <script>
