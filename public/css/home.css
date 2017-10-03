@@ -582,7 +582,7 @@ section {
 }
 
 .nav-link {
-  position: fixed;
+  position: absolute;
   margin: 19px -30px;
   cursor: pointer;
   font-size: 2.3em
