@@ -470,17 +470,16 @@ section {
 .button-cta {
  display: table;
  margin: 0 auto;
- border: 2px solid #1B3045;
  padding: .618em 2em;
+ border: 2px solid #1B3045;
  border-radius: 6px;
- background: #1B3045;
- color: #fff!important
+ background: #354A5F;
+ color: #02172C!important
 }
 
 .button-cta:hover {
- background: 0 0;
+ background: #283D52;
  text-decoration: none!important;
- color: #7b190f!important
 }
 
 .window-gui {

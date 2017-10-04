@@ -20,41 +20,39 @@
     <main id="main" role="main">
       <section class="hero-shot">
         <div class="container">
-          <div class="nav-link">
             <!-- Use any element to open the sidenav -->
-            <span onclick="openNav()">
-              <div class="nav-link">
+            <span id="myBtn" class="nav-link" onclick="toggleNav(this)">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+              <!-- <div class="nav-link">
                 ☰
-              </div>
+              </div> -->
             </span>
-          </div>
           <div class="logo-container col-1-2">
             <div style="float: left;"class="logo">
               <div style="padding-left: 50px;">
-                <h1 class="site-title">RT Weather</h1>
-                <a href="index.html" style="color:#eff4ff">Home</a>
-                <a href="#" style="color:#eff4ff">Main</a>
-                <a href="#" style="color:#eff4ff">Contact</a>
-                <a href="#" style="color:#eff4ff">About Us</a>
+              </br><a style="color: white"class="site-title" href="home.html">RT Weather</a></br>
+                <a class="top-menu" href="home.html" style="color:#eff4ff">Home</a>
+                <a class="top-menu" href="contact.html" style="color:#eff4ff">Contact</a>
+                <a class="top-menu" href="about.html" style="color:#eff4ff">About Us</a>
               </div>
             </div>
           </div> <!-- logo -->
         </div> <!-- .container -->
-        <form class="search_components" action="">
+        <!-- <form class="search_components" action="">
           <input id="search" type="text" placeholder="Concert Name ...">
           <input id="submit" type="submit" value=&#9906>
-        </form>
+        </form> -->
       </section> <!-- .hero-shot -->
 
       <section class="info">
         <div id="Sidenav" class="sidenav">
-          <!-- Button to close the sidebar navigation -->
-          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
           <div class="sidenav-content" style="text-align: center;">
             <a href="#">Profiles</a>
-            <a href="#">Database</a>
-            <a href="#">Settings</a>
-            <a href="#">Logout</a>
+            <a href="management.html" onclick="toggleNav(this)">Database</a>
+            <a href="#" onclick="toggleNav(this)">Settings</a>
+            <a href="index.html" onclick="toggleNav(this)">Logout</a>
           </div>
         </div>
         <div id="data" class="container">
@@ -219,7 +217,7 @@
     <script src="vendor/modernizr.min.js"></script>
     <script src="vendor/jquery.min.js"></script>
     <script src="js/plugins.js"></script>
-    <script src="../public/js/main.js"></script>
+    <script src="../public/js/home.js"></script>
 	<script src="../public/js/modal.js"></script>
 
     <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->

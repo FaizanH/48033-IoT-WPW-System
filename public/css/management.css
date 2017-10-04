@@ -544,6 +544,21 @@ a.tweetbutton:focus {
 
 }
 
+.left {
+    width: 45%;
+    float: left;
+    text-align: right;
+}
+.right {
+    width: 50%;
+    margin-left: 10px;
+    float:left;
+}
+
+.data-container {
+  align-content: center;
+}
+
 pre code {
    letter-spacing: 0
 }
@@ -795,10 +810,15 @@ span.navigationSpace {
 }
 
 footer {
-   padding: 1em 0;
-   background: #333;
-   color: #fff;
-   text-align: center
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  overflow:hidden;
+  text-align: center;
+  background: #333;
+  color: #fff;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
