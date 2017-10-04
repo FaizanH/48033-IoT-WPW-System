@@ -51,19 +51,19 @@
           <div class="sidenav-content" style="text-align: center;">
             <a href="#">Profiles</a>
             <a href="management.html" onclick="toggleNav(this)">Database</a>
-            <a href="#" onclick="toggleNav(this)">Settings</a>
+            <a href="#">Settings</a>
             <a href="index.html" onclick="toggleNav(this)">Logout</a>
           </div>
         </div>
         <div id="data" class="container">
-          <h2 class="headline">$Event_name Weather Predictions</h2>
-          <p style="padding:10px"> </p>
+          <h2 class="headline">Weather Predictions <span id="loc"></span></h2>
+          <!-- <p style="padding:10px"> </p> -->
           <div>
             <div>	<!-- Trigger/Open The Modal -->
-              <a class="button-dash" id="btnTemp">Temperature<br>34 Degrees</a>
-              <a class="button-dash" id="btnSolar">Solar Exposure<br>18.9</a>
-              <a class="button-dash" id="btnRain">Rain<br>12%</a>
-              <a class="button-dash" id="btnWind">Wind<br>70kph</a>
+              <a class="button-dash" id="btnTemp">Temperature<span id="weather"></span></a>
+              <a class="button-dash" id="btnSolar">Solar Exposure<span id="vis"></span></a>
+              <a class="button-dash" id="btnRain">Chance of Rain<span id="rain"></span></a>
+              <a class="button-dash" id="btnWind">Wind<span id="wind"></span></a>
             </div>
           </div> <!-- row -->
         </div> <!-- container -->
@@ -214,11 +214,12 @@
       </footer>
     </main>
 
-    <script src="vendor/modernizr.min.js"></script>
-    <script src="vendor/jquery.min.js"></script>
-    <script src="js/plugins.js"></script>
+    <script src="../vendor/modernizr.min.js"></script>
+    <script src="../vendor/jquery.min.js"></script>
+    <script src="../public/js/plugins.js"></script>
     <script src="../public/js/home.js"></script>
-	<script src="../public/js/modal.js"></script>
+  	<script src="../public/js/modal.js"></script>
+    <script src="../vendor/jquery.simpleWeather.min.js"></script>
 
     <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
     <script>
