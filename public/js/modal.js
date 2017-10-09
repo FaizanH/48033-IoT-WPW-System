@@ -1,10 +1,293 @@
 // Get the modal
 var modal1 = document.getElementById('modalTemp');
-var modal2 = document.getElementById('modalSolar');
-var modal3 = document.getElementById('modalRain');
-var modal4 = document.getElementById('modalWind');
+$(function() {
 
-// Get the button that opens the modal
+  // We use an inline data source in the example, usually data would
+  // be fetched from a server
+
+  var data = [],
+    totalPoints = 300;
+
+  function getRandomData() {
+
+    if (data.length > 0)
+      data = data.slice(1);
+
+    // Do a random walk
+
+    while (data.length < totalPoints) {
+
+      var prev = data.length > 0 ? data[data.length - 1] : 50,
+        y = prev + Math.random() * 10 - 5;
+
+      if (y < 0) {
+        y = 0;
+      } else if (y > 100) {
+        y = 100;
+      }
+
+      data.push(y);
+    }
+
+    // Zip the generated y values with the x values
+
+    var res = [];
+    for (var i = 0; i < data.length; ++i) {
+      res.push([i, data[i]])
+    }
+
+    return res;
+  }
+
+  // Set up the control widget
+
+  var updateInterval = 30;
+
+  var plot = $.plot("#graphTemp", [ getRandomData() ], {
+    series: {
+      shadowSize: 0	// Drawing is faster without shadows
+    },
+    yaxis: {
+      min: 0,
+      max: 100
+    },
+    xaxis: {
+      show: false
+    }
+  });
+
+  function update() {
+
+    plot.setData([getRandomData()]);
+
+    // Since the axes don't change, we don't need to call plot.setupGrid()
+
+    plot.draw();
+    setTimeout(update, updateInterval);
+  }
+
+  update();
+
+  // Add the Flot version string to the footer
+
+});
+var modal2 = document.getElementById('modalSolar');
+$(function() {
+
+  // We use an inline data source in the example, usually data would
+  // be fetched from a server
+
+  var data = [],
+    totalPoints = 300;
+
+  function getRandomData() {
+
+    if (data.length > 0)
+      data = data.slice(1);
+
+    // Do a random walk
+
+    while (data.length < totalPoints) {
+
+      var prev = data.length > 0 ? data[data.length - 1] : 50,
+        y = prev + Math.random() * 10 - 5;
+
+      if (y < 0) {
+        y = 0;
+      } else if (y > 100) {
+        y = 100;
+      }
+
+      data.push(y);
+    }
+
+    // Zip the generated y values with the x values
+
+    var res = [];
+    for (var i = 0; i < data.length; ++i) {
+      res.push([i, data[i]])
+    }
+
+    return res;
+  }
+
+  // Set up the control widget
+
+  var updateInterval = 30;
+
+  var plot = $.plot("#graphSolar", [ getRandomData() ], {
+    series: {
+      shadowSize: 0	// Drawing is faster without shadows
+    },
+    yaxis: {
+      min: 0,
+      max: 100
+    },
+    xaxis: {
+      show: false
+    }
+  });
+
+  function update() {
+
+    plot.setData([getRandomData()]);
+
+    // Since the axes don't change, we don't need to call plot.setupGrid()
+
+    plot.draw();
+    setTimeout(update, updateInterval);
+  }
+
+  update();
+
+  // Add the Flot version string to the footer
+
+});
+var modal3 = document.getElementById('modalRain');
+$(function() {
+
+  // We use an inline data source in the example, usually data would
+  // be fetched from a server
+
+  var data = [],
+    totalPoints = 300;
+
+  function getRandomData() {
+
+    if (data.length > 0)
+      data = data.slice(1);
+
+    // Do a random walk
+
+    while (data.length < totalPoints) {
+
+      var prev = data.length > 0 ? data[data.length - 1] : 50,
+        y = prev + Math.random() * 10 - 5;
+
+      if (y < 0) {
+        y = 0;
+      } else if (y > 100) {
+        y = 100;
+      }
+
+      data.push(y);
+    }
+
+    // Zip the generated y values with the x values
+
+    var res = [];
+    for (var i = 0; i < data.length; ++i) {
+      res.push([i, data[i]])
+    }
+
+    return res;
+  }
+
+  // Set up the control widget
+
+  var updateInterval = 30;
+
+  var plot = $.plot("#graphRain", [ getRandomData() ], {
+    series: {
+      shadowSize: 0	// Drawing is faster without shadows
+    },
+    yaxis: {
+      min: 0,
+      max: 100
+    },
+    xaxis: {
+      show: false
+    }
+  });
+
+  function update() {
+
+    plot.setData([getRandomData()]);
+
+    // Since the axes don't change, we don't need to call plot.setupGrid()
+
+    plot.draw();
+    setTimeout(update, updateInterval);
+  }
+
+  update();
+
+  // Add the Flot version string to the footer
+
+});
+var modal4 = document.getElementById('modalWind');
+$(function() {
+
+  // We use an inline data source in the example, usually data would
+  // be fetched from a server
+
+  var data = [],
+    totalPoints = 300;
+
+  function getRandomData() {
+
+    if (data.length > 0)
+      data = data.slice(1);
+
+    // Do a random walk
+
+    while (data.length < totalPoints) {
+
+      var prev = data.length > 0 ? data[data.length - 1] : 50,
+        y = prev + Math.random() * 10 - 5;
+
+      if (y < 0) {
+        y = 0;
+      } else if (y > 100) {
+        y = 100;
+      }
+
+      data.push(y);
+    }
+
+    // Zip the generated y values with the x values
+
+    var res = [];
+    for (var i = 0; i < data.length; ++i) {
+      res.push([i, data[i]])
+    }
+
+    return res;
+  }
+
+  // Set up the control widget
+
+  var updateInterval = 30;
+
+  var plot = $.plot("#graphWind", [ getRandomData() ], {
+    series: {
+      shadowSize: 0	// Drawing is faster without shadows
+    },
+    yaxis: {
+      min: 0,
+      max: 100
+    },
+    xaxis: {
+      show: false
+    }
+  });
+
+  function update() {
+
+    plot.setData([getRandomData()]);
+
+    // Since the axes don't change, we don't need to call plot.setupGrid()
+
+    plot.draw();
+    setTimeout(update, updateInterval);
+  }
+
+  update();
+
+  // Add the Flot version string to the footer
+
+});
+
 var btn1 = document.getElementById("btnTemp");
 var btn2 = document.getElementById("btnSolar");
 var btn3 = document.getElementById("btnRain");

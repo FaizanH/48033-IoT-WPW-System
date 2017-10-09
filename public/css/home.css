@@ -406,6 +406,7 @@ body {
 
 /* Modal Body */
 .modal-body {
+ display: block
   padding: 2px 16px;
 }
 
@@ -694,7 +695,7 @@ section {
 }
 
 .button-dash {
-  display: inline-block;
+  display: inline-grid;
   margin: 0 auto;
   border-radius: 12px;
   background: #D3D7D8;
@@ -703,7 +704,8 @@ section {
   width: 20%;
   min-width: 200px;
   padding: 50px 0;
-  height: 100%;
+  min-height: 250px;
+  max-height: 250px;
   cursor: pointer;
 }
 
