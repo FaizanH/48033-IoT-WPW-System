@@ -17,7 +17,7 @@ function loginAdmin () {
 
 	if(user.value == coruser) {
 		if(pass.value == corpass) {
-      window.location.assign("../views/home.html");/*opens the target page while Id & password matches*/
+      window.location.assign("home");/*opens the target page while Id & password matches*/
 		}
     else {
 			alert("Error: Incorrect Password or Username");/*displays error message*/

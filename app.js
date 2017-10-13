@@ -6,16 +6,16 @@
 /**
  * Module dependencies.
  */
-
-
+ 
+ 
  //https://github.com/skylarstein/pi-weather-station
 
 var express = require('express')
     , http = require('http')
     , app = express()
-	, async = require('async');
+	, async = require('async')
     , server = require('http').createServer(app)
-    , io = require('socket.io')(server) // new
+    , io = require('socket.io').listen(server) // new
     , events = require('events')
     , EventEmitter = require('events').EventEmitter
     , path = require('path')
@@ -27,21 +27,20 @@ var express = require('express')
     , bodyParser = require('body-parser')
     , util = require('util')
 	, SensorTag = require('sensortag'); 	// sensortag library
-
+     
 var sys = require('sys');
 const sqlite3 = require('sqlite3').verbose();  //database SQLite
+var sensorMod = require("./libs/sensor.js");	//sensor functions
 
 
 //==========================================================
 var db;	//database object
 var sensorTagDb = './db/sensorTagData.db'
+var sqliteDB = require("./db/sqliteDB.js");
 //==========================================================
 
-//var exec = require('child_process').exec;
-//var child;
-
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3000); 
 // Using the .html extension instead of
 // having to name the views as *.ejs
 app.engine('.html', require('ejs').__express);
@@ -51,14 +50,90 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/css',express.static(path.join(__dirname, '/public/css')));
 app.use('/js',express.static(path.join(__dirname, '/public/js')));
 app.use('/vendor',express.static(path.join(__dirname, '/vendor')));
-
-// uncomment after placing your favicon in /public
-//app.use(favicon('favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//=========================User Setting Variables=============================================
+var tagUuid = "247189e88004";		//default UUID
+var eventId = 1;
+var twitterInterval = 60;	//default minutes
+var currentTag = null;
+//============================================================================================
 
+//=========================Talking to browser=============================================
+//Once client is connected
+io.on('connection', function (socket) {
+	var addedUser = false;
+	console.log("connected");
+
+	// when the client emits 'save data', this listens and executes
+	socket.on('save data', function (data) {
+		// we tell the client to execute 'new message'
+		console.log("MESSAGE:"+data.uuid);
+		//TODO: save data to database and set variables
+	});
+  
+  
+	// Client wants to start Sensors
+	socket.on('start sensors', function () {
+		if(eventId==null){
+			//Send error to browser as event wasn't set
+			io.emit('error', { message: "ERROR: Event information not set" });
+		}else{
+			currentTag=tagUuid;
+			startSensors(eventId,currentTag);
+		}
+	});
+  
+    // Client wants to stop Sensors
+	socket.on('stop sensors', function () {
+		if(currentTag==null){
+			//Send error to browser as there was not tag set
+			io.emit('error', { message: "ERROR: sensors were not started" });
+		}else{
+			sensorMod.disableSensors(tag);
+		}
+		
+	});
+	
+	
+	function sendTemperature(){
+		sqliteDB.getHumidityTemp(db,1,function callback(err,results){
+			if(err)
+				throw err;
+			else
+				io.emit('sendTemperature', { message: results });
+		});
+	}
+	
+	function sendLux(){
+		sqliteDB.getLux(db,1,function callback(err,results){
+			if(err)
+				throw err;
+			else
+				io.emit('sendLux', { message: results });
+		});
+	}
+	
+	setInterval(sendLux, 10000);
+	setInterval(sendTemperature, 10000);
+
+  
+});
+
+// Send current time to all connected clients
+function sendTagData() {
+    io.emit('sensor update', { message: "hello friend" });
+}
+
+// Send current time every 10 secs
+//setInterval(sendTagData, 10000);
+
+//=============================================================================
+
+
+//link views
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/views/index.html', { title: 'Index' });
 });
@@ -75,6 +150,10 @@ app.get('/error', function(req, res) {
     res.sendFile(__dirname + '/views/404.html', { title: 'Error' });
 });
 
+app.get('/management', function(req, res) {
+    res.sendFile(__dirname + '/views/management.html', { title: 'Database Management' });
+});
+
 
 // test for OS
 var myOS = process.platform;
@@ -82,26 +161,31 @@ console.log('This platform is ' + myOS);
 // end of test for OS
 
 //======================= Init Database =======================
-var sqliteDB = require("./db/sqliteDB.js");
 
 //Open DB
 db = new sqlite3.Database(sensorTagDb, (err) => {
 		if (err) {
 			return console.error(err.message);
 		}
-		sqliteDB.createTables(db);
-});
+		sqliteDB.createTables(db,function callback(){
+			console.log("DB done initializing");
+		});
+	
+	});
 
-//sqliteDB.getSchema(db);
+//callback function once db is done
+function db_done(){
+	console.log("DB done initializing");
+	sqliteDB.getTableContent(db,"Luxometer",1,function callback(err,results){
+		if(err)
+			throw err;
+		else
+			console.log(results);
+	});
+}
 
-/*db.serialize(function() {
-	sqliteDB.insertRows(db,20,25);
-	sqliteDB.readAllRows(db);
-});*/
+//
 
-
-//console.log("closeDb");
-//db.close();
 //==========================================================
 
 // some delay here to start the server listen after serial port open
@@ -113,42 +197,39 @@ setTimeout(function(){
     });
 }, 2000);
 
-var user_count = 0;
-var timerID = "";
-
-// socket.io handlers, we are here if socket is on
-// new version
-//check out: https://socket.io/demos/chat/
-io.on('connection', function(socket){
-    user_count++;
-    socket.emit('users', { number: user_count });
-    socket.broadcast.emit('users', { number: user_count });
-    console.log("user_count: ", user_count);
-    console.log("socket is connected");
-
-    socket.on('disconnect', function () {
-        user_count--;
-        socket.broadcast.emit('users', { number: user_count });
-        console.log(user_count);
-    });
-
-    // Send time every 2 seconds
-    setInterval(function() {
-        var now = new Date();
-        socket.emit('timer_tick', { string: getTimeStampLog()});
-    }, 1000);
-
-
-});
 
 // =================================================================================
-var USE_READ = true;
+// RUN SENSORS
 
-SensorTag.discoverByUuid("247189e88004", function(tag) {
+//start sensors
+function startSensors(evenId,tagUuid){
+	SensorTag.discoverByUuid(tagUuid,onDiscover);
 
-        SensorTag.discover(function(tag) {
-            console.log('connected!');
-            console.log('discovered: ' + tag.uuid + ', type = ' + tag.type);
-            //socket.emit('discover', { 'message': 'connected' });
-        });
-});
+	function onDiscover(tag)  {  
+		// when you disconnect from a tag, exit the program:
+		currentTag = tag;
+		
+		tag.on('disconnect', function() {
+			console.log('disconnected!');
+			process.exit(0);
+		});
+
+		function connectAndSetUpMe() {          // attempt to connect to the tag
+			console.log('connectAndSetUp');
+			sensorMod.connect(tag,db,evenId);	//should have event id instead of 1
+			
+			//Stop simulations
+			/*setTimeout(function () {
+				console.log('timeout started')
+				sensorMod.disableSensors(tag)
+				sqliteDB.readAllRows(db,"Luxometer");
+				sqliteDB.readAllRows(db,"Barometer");
+				sqliteDB.readAllRows(db,"Humidity");
+			}, 10000)*/
+		
+		}
+		connectAndSetUpMe();
+	}
+}
+
+

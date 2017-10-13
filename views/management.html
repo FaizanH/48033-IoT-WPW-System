@@ -14,10 +14,10 @@
     <link rel="apple-touch-icon" href="icon.png">
     <!-- Place favicon.ico in the root directory -->
     <!-- <link rel="stylesheet" href="css/normalize.css"> -->
-    <link rel="stylesheet" href="../public/css/management.css">
+    <link rel="stylesheet" href="/css/management.css">
   </head>
   <body>
-    <main id="main" role="main">
+    <main id="management" role="main">
       <section class="hero-shot">
         <div class="container">
             <!-- Use any element to open the sidenav -->
@@ -32,10 +32,10 @@
           <div class="logo-container col-1-2">
             <div style="float: left;"class="logo">
               <div style="padding-left: 50px;">
-              </br><a style="color: white"class="site-title" href="home.html">RT Weather</a></br>
-                <a class="top-menu" href="home.html" style="color:#eff4ff">Home</a>
-                <a class="top-menu" href="contact.html" style="color:#eff4ff">Contact</a>
-                <a class="top-menu" href="about.html" style="color:#eff4ff">About Us</a>
+              </br><a style="color: white"class="site-title" href="home">RT Weather</a></br>
+                <a class="top-menu" href="home" style="color:#eff4ff">Home</a>
+                <a class="top-menu" href="contact" style="color:#eff4ff">Contact</a>
+                <a class="top-menu" href="about" style="color:#eff4ff">About Us</a>
               </div>
             </div>
           </div> <!-- logo -->
@@ -50,9 +50,9 @@
         <div id="Sidenav" class="sidenav">
           <div class="sidenav-content" style="text-align: center;">
             <a href="#">Profiles</a>
-            <a href="management.html" onclick="toggleNav(this)">Database</a>
+            <a href="management" onclick="toggleNav(this)">Database</a>
             <a href="#">Settings</a>
-            <a href="index.html" onclick="toggleNav(this)">Logout</a>
+            <a href="/" onclick="toggleNav(this)">Logout</a>
           </div>
         </div>
 
@@ -109,8 +109,8 @@
             </div> <!-- row -->
           </div> <!-- container -->
           <div style="align-content: center;">
-            <a style="float: right; margin-right: 30px;"class="button-cta" title="save" href="#">Start Sensor</a>
-            <a style="float: right; margin-right: 30px;"class="button-cta" title="save" href="#">Stop Sensor</a>
+            <a id="btnStartSensor" style="float: right; margin-right: 30px;"class="button-cta" onclick="onStartSensor()">Start Sensor</a>
+            <a id="btnStopSensor" style="float: right; margin-right: 30px;"class="button-cta" onclick="onStopSensor()">Stop Sensor</a>
           </div>
         </div>
 
@@ -181,7 +181,8 @@
               </div>
             </div> <!-- row -->
 
-            <a style="float: right; margin-right: 300px;"class="button-cta" title="save" href="#">Save</a>
+            <a id="btnSave" style="float: right; margin-right: 300px;" class="button-cta" onclick="onSave()" title="save">Save</a>
+
             </div>
           </div>
           <div style="padding-top: 250px;">
@@ -204,13 +205,22 @@
         </div> <!-- container -->
       </footer>
     </main>
-
+	
     <script src="vendor/modernizr.min.js"></script>
     <script src="vendor/jquery.min.js"></script>
     <script src="js/plugins.js"></script>
-    <script src="../public/js/home.js"></script>
-	<script src="../public/js/modal.js"></script>
+    <script src="js/home.js"></script>
+	<script src="js/modal.js"></script>
+	
+	  	<!-- node and browser communication -->
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>	
+	<script type="text/javascript" src="js/dataSave.js"></script>
 
+	<!-- initialize the socket -->
+	<script>
+		connectUserManagement();
+	</script>
+	
     <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
     <script>
       window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;

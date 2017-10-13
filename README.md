@@ -22,13 +22,6 @@ The system predicts their occurrence (time, location, and period) on daily and w
 * Explores application of various ways of disseminating and mapping events, as well as, the use of predictive analytics and statistics.
 * Expansions into the social aspects of effective warning messages (i.e., friendly reminders about taking an umbrella, wearing sunglasses, applying a sunscreen, taking a jumper or a coat, etc.
 ### Developement
-### Update Logs
+##Update Logs
 
-![Image of Prototype](https://github.com/FaizanH/48033-IoT-WPW-System/blob/master/21216030_2043000939059040_433262618_o.png "RT Weather main screen sketch")
-
-```
-#### TODO
-- [ ] UI to monitor concert attributes.
-- [ ] Update twitter page with posts featuring details (time interval, public data)
-- [ ] 
-```
+![alt text](https://scontent-syd2-1.xx.fbcdn.net/v/t35.0-12/21216030_2043000939059040_433262618_o.png?oh=1672c437f092e6b1ca789a6004c311e5&oe=59B78A54 "RT Weather main screen sketch")
