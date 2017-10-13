@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="/css/home.css">
 
 	<!-- node and browser communication -->
-	<script type="text/javascript" src="/socket.io/socket.io.js"></script>	
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="js/dataSave.js"></script>
 
 
@@ -92,16 +92,13 @@
       <div class="row modal-body">
         <div class="column">
           <p><center>Temp Graph</center></p>
-		  
           <script>
-          jQuery(document).ready(function(){
-            modal1;
-          });
+            jQuery(document).ready(function(){
+              modal1;
+            });
           </script>
-			
           <div id="graphTemp" style="width:450px; height:300px; margin: 20px;">
           </div>
-
         </div>
         <div class="column">
           <p>Temperature Sensor Feed</p>
@@ -123,20 +120,14 @@
       <div class="row modal-body">
         <div class="column">
           <p>Solar Graph</p>
+          <script>
+            jQuery(document).ready(function(){
+              modal2;
+            });
+          </script>
           <div id="graphLux" style="width:450px; height:300px; margin: 20px;"></div>
           <div class="column">
             <p>Solar Exposure Sensor Feed</p>
-			
-			<script>
-			  jQuery(document).ready(function(){
-				modal2;
-			  });
-          </script>
-			
-          <div id="graphLux" style="width:450px; height:300px; margin: 20px;">
-          </div>
-		  
-		  
           </div>
         </div>
 
@@ -155,7 +146,12 @@
         <div class="row modal-body">
           <div class="column">
             <p>Rain Graph</p>
-            <div id="graphTemp" style="width:450px; height:300px; margin: 20px;"></div>
+            <script>
+              jQuery(document).ready(function(){
+                modal3;
+              });
+            </script>
+            <div id="graphRain" style="width:450px; height:300px; margin: 20px;"></div>
             <div class="column">
               <p>Rain Sensor Feed</p>
             </div>

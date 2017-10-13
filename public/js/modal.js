@@ -1,11 +1,11 @@
 // Get the modal
 var modal1 = document.getElementById('modalTemp');
 $(function() {
-	
+
 	// Initialize variables
 	var $window = $(window);
-	var socket = io();  
-	
+	var socket = io();
+
 	var bufferTemp =  [ [0,0] ];
     var minBufferSize = 50;
     var maxBufferSize = 300;
@@ -13,21 +13,21 @@ $(function() {
     var rebuffer = true;
     var serverUpdates = 1;
     var clientUpdates = 30;
-	
-	//update graph 
+
+	//update graph
     function repaintTempGraph() {
 			//console.log(buffer);
              repaintTempGraph.plot = $.plot("#graphTemp",bufferTemp, {
                 series: {
                     shadowSize: 0	// Drawing is faster without shadows
                 },
-               
+
                 xaxis: {
                     show: false
                 }
             });
     }
-	
+
 	var countTemp=0;
 	/*
      * Receiving data from the server
@@ -61,11 +61,11 @@ $(function() {
 
 var modal2 = document.getElementById('modalSolar');
 $(function() {
-	
+
 	// Initialize variables
 	var $window = $(window);
-	var socket = io();  
-	
+	var socket = io();
+
 	var bufferLux =  [ [0,0] ];
     var minBufferSize = 50;
     var maxBufferSize = 300;
@@ -73,21 +73,21 @@ $(function() {
     var rebuffer = true;
     var serverUpdates = 1;
     var clientUpdates = 30;
-	
-	//update graph 
+
+	//update graph
     function repaintLuxGraph() {
 			//console.log(buffer);
              repaintLuxGraph.plot = $.plot("#graphLux",bufferLux, {
                 series: {
                     shadowSize: 0	// Drawing is faster without shadows
                 },
-               
+
                 xaxis: {
                     show: false
                 }
             });
     }
-	
+
 	var countLux=0;
 	/*
      * Receiving data from the server
