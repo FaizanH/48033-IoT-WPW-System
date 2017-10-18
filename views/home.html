@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="/css/home.css">
 
 	<!-- node and browser communication -->
-	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>	
 	<script type="text/javascript" src="js/dataSave.js"></script>
 
 
@@ -44,10 +44,10 @@
       <div class="logo-container">
         <div style="float: left;"class="logo">
           <div style="padding-left: 50px;">
-          </br><a style="color: white"class="site-title" href="home.html">RT Weather</a></br>
-          <a class="top-menu" href="home.html" style="color:#eff4ff">Home</a>
-          <a class="top-menu" href="contact.html" style="color:#eff4ff">Contact</a>
-          <a class="top-menu" href="about.html" style="color:#eff4ff">About Us</a>
+          </br><a style="color: white"class="site-title" href="home">RT Weather</a></br>
+          <a class="top-menu" href="home" style="color:#eff4ff">Home</a>
+          <a class="top-menu" href="contact" style="color:#eff4ff">Contact</a>
+          <a class="top-menu" href="about" style="color:#eff4ff">About Us</a>
         </div>
       </div>
     </div> <!-- logo -->
@@ -62,8 +62,7 @@
   <div id="Sidenav" class="sidenav">
     <div class="sidenav-content" style="text-align: center;">
       <a href="#">Profiles</a>
-      <a href="management" onclick="toggleNav(this)">Database</a>
-      <a href="#">Settings</a>
+      <a href="management" onclick="toggleNav(this)">Management</a>
       <a href="index" onclick="toggleNav(this)">Logout</a>
     </div>
   </div>
@@ -72,10 +71,10 @@
     <!-- <p style="padding:10px"> </p> -->
     <div style="height: 250px">
       <div style="height: 250px">	<!-- Trigger/Open The Modal -->
-        <a class="button-dash" id="btnTemp"><b>Temperature</b><span id="weather"></span></a>
+        <a class="button-dash" id="btnTemp"><b>Temperature</b><span id="temperature"></span></a>
         <a class="button-dash" id="btnSolar"><b>Solar Exposure</b><span id="vis"></span></a>
-        <a class="button-dash" id="btnRain"><b>Chance of Rain</b><span id="rain"></span></a>
-        <a class="button-dash" id="btnWind"><b>Wind</b><span id="wind"></span></a>
+        <a class="button-dash" id="btnHumidity"><b>Humidity</b><span id="humidity"></span></a>
+        <a class="button-dash" id="btnPressure"><b>Atmospheric pressure</b><span id="pressure"></span></a>
       </div>
     </div> <!-- row -->
   </div> <!-- container -->
@@ -92,16 +91,21 @@
       <div class="row modal-body">
         <div class="column">
           <p><center>Temp Graph</center></p>
+		  
           <script>
-            jQuery(document).ready(function(){
-              modal1;
-            });
+          jQuery(document).ready(function(){
+            modal1;
+          });
           </script>
+			
           <div id="graphTemp" style="width:450px; height:300px; margin: 20px;">
           </div>
+
         </div>
         <div class="column">
-          <p>Temperature Sensor Feed</p>
+           <p>Temperature Assessment</p>
+          <p id="tempAdvice"></p>
+		  
         </div>
       </div>
 
@@ -110,6 +114,7 @@
       </div>
     </div>
   </div>
+  
   <div id="modalSolar" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -120,23 +125,32 @@
       <div class="row modal-body">
         <div class="column">
           <p>Solar Graph</p>
-          <script>
-            jQuery(document).ready(function(){
-              modal2;
-            });
-          </script>
-          <div id="graphLux" style="width:450px; height:300px; margin: 20px;"></div>
-          <div class="column">
             <p>Solar Exposure Sensor Feed</p>
+			
+			<script>
+			  jQuery(document).ready(function(){
+				modal2;
+			  });
+          </script>
+			
+			<div id="graphLux" style="width:450px; height:300px; margin: 20px;"></div>
+		  
           </div>
+        <div class="column">
+		
+          <p>Solar Assessment</p>
+          <p id="solarAdvice"></p>
+		  
         </div>
-
+      </div>
+		
         <div class="modal-footer">
           <p>Footer</p>
         </div>
       </div>
     </div>
-    <div id="modalRain" class="modal">
+	
+    <div id="modalHumidity" class="modal">
       <div class="modal-content">
         <div class="modal-header">
           <span class="close">&times;</span>
@@ -145,15 +159,20 @@
 
         <div class="row modal-body">
           <div class="column">
-            <p>Rain Graph</p>
-            <script>
-              jQuery(document).ready(function(){
-                modal3;
-              });
-            </script>
-            <div id="graphRain" style="width:450px; height:300px; margin: 20px;"></div>
+            <p>Humidity Graph</p>
+			  
+			  <script>
+			  jQuery(document).ready(function(){
+				modal3;
+			  });
+			</script>
+			
+			<div id="graphHumidity" style="width:450px; height:300px; margin: 20px;"></div>
+			
+			</div>
             <div class="column">
-              <p>Rain Sensor Feed</p>
+			  <p>Humidity Assessment</p>
+			  <p id="humidAdvice"></p>
             </div>
           </div>
 
@@ -162,7 +181,8 @@
           </div>
         </div>
       </div>
-      <div id="modalWind" class="modal">
+	  
+      <div id="modalPressure" class="modal">
         <div class="modal-content">
           <div class="modal-header">
             <span class="close">&times;</span>
@@ -171,11 +191,21 @@
 
           <div class="row modal-body">
             <div class="column">
-              <p>Wind Graph</p>
-              <div id="graphWind" style="width:450px; height:300px; margin: 20px;"></div>
+              <p>Atmospheric Pressure Graph</p>
+			  
+			  
+			  <script>
+			  jQuery(document).ready(function(){
+				modal4;
+			  });
+			</script>
+			  
+			  
+              <div id="graphPressure" style="width:450px; height:300px; margin: 20px;"></div>
             </div>
             <div class="column">
-              <p>Wind Sensor Feed</p>
+              <p>Pressure Assessment</p>
+			  <p id="pressureAdvice"></p>
             </div>
           </div>
 
@@ -249,17 +279,6 @@
 	<script src="js/modal.js"></script>
 	<script src="vendor/jquery.simpleWeather.min.js"></script>
 
-<!--
-<script>
-jQuery(document).ready(function(){
-  modal1;
-  //modal2;
-  //modal3;
-  //modal4;
-})
-</script>
--->
-<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 <script>
 window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
 ga('create','UA-XXXXX-Y','auto');ga('send','pageview')

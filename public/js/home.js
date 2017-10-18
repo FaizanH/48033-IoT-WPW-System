@@ -26,20 +26,20 @@ $(document).ready(function() {
     success: function(weather) {
       tempHtml = '<p>'+weather.temp+'&deg;'+weather.units.temp+'</p>';
       visHtml = '<p>Visibility: '+weather.visibility+'</p>';
-      rainHtml = '<p>'+weather.currently+'</p>';
-      windHtml = '<p>Chill: '+weather.wind.chill+'</br>'+'Speed: '+weather.wind.speed+'</br>'+'Direction: '+weather.wind.direction+'</p>';
+      humidityHtml = '<p>'+weather.humidity+' %'+'</p>';
+      pressureHtml = '<p>'+weather.pressure+' '+weather.units.pressure+'</p>';
       locHtml = '<p>'+weather.city+', '+weather.region+'</p>';
-      $("#weather").html(tempHtml);
+      $("#temperature").html(tempHtml);
       $("#vis").html(visHtml);
-      $("#rain").html(rainHtml);
-      $("#wind").html(windHtml);
+      $("#humidity").html(humidityHtml);
+      $("#pressure").html(pressureHtml);
       $("#loc").html(locHtml);
     },
     error: function(error) {
-      $("#weather").html('<p>'+error+'</p>');
+      $("#temperature").html('<p>'+error+'</p>');
       $("#vis").html('<p>'+error+'</p>');
-      $("#rain").html('<p>'+error+'</p>');
-      $("#wind").html('<p>'+error+'</p>');
+      $("#humidity").html('<p>'+error+'</p>');
+      $("#pressure").html('<p>'+error+'</p>');
     }
   });
 });

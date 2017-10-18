@@ -10,11 +10,10 @@ function connectUserManagement(){
 	//repace the values with input from user
 	btnSave.onclick = function(){
 		 socket.emit('save data', {
-			uuid: 1,
-			twitterInterval: "test2",
-			notificationSettings: "settings",
-			temp: 32,
-			solar: 33
+			uuid: document.getElementById('uuid').value,
+			twitterInterval: document.getElementById('twitterInt').value,
+			location: document.getElementById('event_location').value,
+			eventName: document.getElementById('event_name').value
 		 });
 	 }
 	 

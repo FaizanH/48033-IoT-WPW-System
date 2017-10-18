@@ -6,7 +6,7 @@ module.exports = exports;
 exports.createTables = function(db,callback){	
 	db.serialize(function () {
 		console.log("Creating Event table");
-		db.run("CREATE TABLE IF NOT EXISTS Event (event_id INTEGER PRIMARY KEY, event_name TEXT NOT NULL, event_location TEXT NOT NULL)");
+		db.run("CREATE TABLE IF NOT EXISTS Event (event_id INTEGER PRIMARY KEY, event_name TEXT NOT NULL UNIQUE, event_location TEXT NOT NULL)");
 		
 		console.log("Creating Humidity table");
 		db.run("CREATE TABLE IF NOT EXISTS Humidity (id INTEGER PRIMARY KEY, event_id INTEGER NOT NULL,temperature REAL NOT NULL, humidity REAL NOT NULL,timestamp TEXT NOT NULL)");
@@ -23,9 +23,11 @@ exports.createTables = function(db,callback){
 
 /* Inserts Event data into db */
 exports.insertEventData = function(db,event_name,event_location) {
-    //console.log("Inserting Event data");
 	var stmt = db.prepare("INSERT INTO Event VALUES(NULL,?,?)");
-	stmt.run(event_name,event_location); 
+	
+	stmt.run(event_name,event_location, function(error) {
+		console.log("Caught an error : ", error);
+	});  
 	stmt.finalize();
 }
 
@@ -66,6 +68,18 @@ exports.getHumidityTemp = function(db,eventId,callback) {
 	});
 }
 
+exports.getPressure = function(db,eventId,callback) {
+	let sql = "SELECT timestamp,pressure FROM Barometer WHERE event_id=? and timestamp >?";
+	//get last 5 minutes
+	var d1 = new Date (),
+    d2 = new Date ( d1 );
+	d2.setMinutes ( d1.getMinutes() - 1 );
+
+    db.all(sql,[eventId,d2],(err, rows) => {
+		callback(err,rows);
+	});
+}
+	
 
 exports.getLux = function(db,eventId,callback) {
 	let sql = "SELECT timestamp,lux FROM Luxometer WHERE event_id=? and timestamp >?";
@@ -84,8 +98,8 @@ exports.getLux = function(db,eventId,callback) {
 exports.getTableContent = function(db,table, eventId,callback) {
     console.log("table: " + table);
 	//let sql = "SELECT * FROM "+table +" WHERE event_id=? and timestamp BETWEEN ? AND ?";
-	let sql = "SELECT * FROM "+table +" WHERE event_id=?";
-    db.each(sql,[eventId],(err, rows) => {
+	let sql = "SELECT * FROM "+table +" WHERE event_id=? ORDER BY ID DESC LIMIT 1";
+    db.all(sql,[eventId],(err, rows) => {
 		callback(err,rows);
 	});
 }

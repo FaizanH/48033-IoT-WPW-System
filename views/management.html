@@ -50,8 +50,7 @@
         <div id="Sidenav" class="sidenav">
           <div class="sidenav-content" style="text-align: center;">
             <a href="#">Profiles</a>
-            <a href="management" onclick="toggleNav(this)">Database</a>
-            <a href="#">Settings</a>
+            <a href="management" onclick="toggleNav(this)">Management</a>
             <a href="/" onclick="toggleNav(this)">Logout</a>
           </div>
         </div>
@@ -69,7 +68,7 @@
             </div> <!-- row -->
             <div>
               <div class="left">
-                <label for="username">Twitter Notification Interval</label>
+                <label for="username">Twitter Notification Interval (mili seconds)</label>
               </div>
               <div class="right">
                 <input type="text" id="twitterInt">
@@ -77,28 +76,21 @@
             </div> <!-- row -->
             <div>
               <div class="left">
-                <label for="username">Notification Message Settings</label>
+                <label for="eventNameLabel">Event name</label>
               </div>
               <div class="right">
-                <input type="text" id="notifMsg">
+                <input type="text" id="event_name">
               </div>
             </div> <!-- row -->
             <div>
               <div class="left">
-                <label for="username">Temperature</label>
+                <label for="eventLocationLabel">Event location</label>
               </div>
               <div class="right">
-                <input type="text" id="temp">
+                <input type="text" id="event_location">
               </div>
             </div> <!-- row -->
-            <div>
-              <div class="left">
-                <label for="username">Solar Exposure</label>
-              </div>
-              <div class="right">
-                <input type="text" id="solExp">
-              </div>
-            </div> <!-- row -->
+            
             <div>
               <div class="left">
                 &nbsp;
@@ -116,15 +108,6 @@
 
         <div class="right">
           <div id="venueData" class="data-container">
-    <!--             <div id="lower-advice" class="container clleft">
-            <h3>Our Advice*</h3>
-            <p> ‣	Advice based on temperature </P>
-            <p> ‣	Advice based on Solar exposure</p>
-            <p> ‣	Advice based on Rain</p>
-            <p> ‣	Advice based on Wind </p>
-            <p> ‣	Advice based other sources </p>
-            <p><i>* this advice is generated based pre-assigned evaluations of venue sensor data and weather.com data. </i> </p>
-          </div> -->
 
             <h2 class="headline">Edit Event Details</h2>
             <div>

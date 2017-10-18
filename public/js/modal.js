@@ -1,11 +1,12 @@
 // Get the modal
 var modal1 = document.getElementById('modalTemp');
 $(function() {
-
+	
+	
 	// Initialize variables
 	var $window = $(window);
-	var socket = io();
-
+	var socket = io();  
+	
 	var bufferTemp =  [ [0,0] ];
     var minBufferSize = 50;
     var maxBufferSize = 300;
@@ -13,21 +14,21 @@ $(function() {
     var rebuffer = true;
     var serverUpdates = 1;
     var clientUpdates = 30;
-
-	//update graph
+	
+	//update graph 
     function repaintTempGraph() {
 			//console.log(buffer);
              repaintTempGraph.plot = $.plot("#graphTemp",bufferTemp, {
                 series: {
                     shadowSize: 0	// Drawing is faster without shadows
                 },
-
+               
                 xaxis: {
                     show: false
                 }
             });
     }
-
+	
 	var countTemp=0;
 	/*
      * Receiving data from the server
@@ -37,7 +38,7 @@ $(function() {
 			for(var i=0; i<data.message.length; i++){
 
 				countTemp=countTemp+1;
-				recievedData.push([countTemp,data.message[i].humidity]);
+				recievedData.push([countTemp,data.message[i].temperature]);
 			}
 			//shift data so that it doesn't stack
 			bufferTemp.shift();
@@ -53,7 +54,11 @@ $(function() {
     clientInterval = setInterval(function () {
         repaintTempGraph();
     },clientUpdates);
-
+	
+	socket.on('sendTemperatureMessage',function (prediction) {
+		document.getElementById("tempAdvice").innerHTML = prediction.message;
+	});
+	
 });
 
 
@@ -61,11 +66,11 @@ $(function() {
 
 var modal2 = document.getElementById('modalSolar');
 $(function() {
-
+	
 	// Initialize variables
 	var $window = $(window);
-	var socket = io();
-
+	var socket = io();  
+	
 	var bufferLux =  [ [0,0] ];
     var minBufferSize = 50;
     var maxBufferSize = 300;
@@ -73,21 +78,21 @@ $(function() {
     var rebuffer = true;
     var serverUpdates = 1;
     var clientUpdates = 30;
-
-	//update graph
+	
+	//update graph 
     function repaintLuxGraph() {
 			//console.log(buffer);
              repaintLuxGraph.plot = $.plot("#graphLux",bufferLux, {
                 series: {
                     shadowSize: 0	// Drawing is faster without shadows
                 },
-
+               
                 xaxis: {
                     show: false
                 }
             });
     }
-
+	
 	var countLux=0;
 	/*
      * Receiving data from the server
@@ -113,95 +118,144 @@ $(function() {
     clientInterval = setInterval(function () {
         repaintLuxGraph();
     },clientUpdates);
+	
+	socket.on('sendLuxMessage',function (prediction) {
+		document.getElementById("solarAdvice").innerHTML = prediction.message;
+	});
+	
+});
+
+
+var modal3 = document.getElementById('modalHumidity');
+$(function() {
+// Initialize variables
+	var $window = $(window);
+	var socket = io();  
+	
+	var bufferHumidity =  [ [0,0] ];
+    var minBufferSize = 50;
+    var maxBufferSize = 300;
+    var clientInterval = null;
+    var rebuffer = true;
+    var serverUpdates = 1;
+    var clientUpdates = 30;
+	
+	//update graph 
+    function repaintHumidityGraph() {
+			//console.log(buffer);
+             repaintHumidityGraph.plot = $.plot("#graphHumidity",bufferHumidity, {
+                series: {
+                    shadowSize: 0	// Drawing is faster without shadows
+                },
+               
+                xaxis: {
+                    show: false
+                }
+            });
+    }
+	
+	var countHumidity=0;
+	/*
+     * Receiving data from the server
+     */
+    socket.on('sendTemperature', function (data) {
+        var recievedData = [];
+			for(var i=0; i<data.message.length; i++){
+
+				countHumidity=countHumidity+1;
+				recievedData.push([countHumidity,data.message[i].humidity]);
+			}
+			//shift data so that it doesn't stack
+			bufferHumidity.shift();
+            bufferHumidity.push(recievedData);
+    });
+
+	//Client side, wake up an _independent_ amount of time
+    //from the server and try to repaint.  This gives us a smooth
+    //animation and nothing jerky.  You really don't want to put
+    //it within the socket call.  Let that "buffer" the data
+    //instead.
+
+    clientInterval = setInterval(function () {
+        repaintHumidityGraph();
+    },clientUpdates);
+
+	
+	socket.on('sendHumidityMessage',function (prediction) {
+			document.getElementById("humidAdvice").innerHTML = prediction.message;
+	});
 
 });
 
 
-var modal3 = document.getElementById('modalRain');
+
+
+var modal4 = document.getElementById('modalPressure');
 $(function() {
 
-});
-
-
-
-
-var modal4 = document.getElementById('modalWind');
-$(function() {
-
-  // We use an inline data source in the example, usually data would
-  // be fetched from a server
-
-  var data = [],
-    totalPoints = 300;
-
-  function getRandomData() {
-
-    if (data.length > 0)
-      data = data.slice(1);
-
-    // Do a random walk
-
-    while (data.length < totalPoints) {
-
-      var prev = data.length > 0 ? data[data.length - 1] : 50,
-        y = prev + Math.random() * 10 - 5;
-
-      if (y < 0) {
-        y = 0;
-      } else if (y > 100) {
-        y = 100;
-      }
-
-      data.push(y);
+  // Initialize variables
+	var $window = $(window);
+	var socket = io();  
+	
+	var bufferPressure =  [ [0,0] ];
+    var minBufferSize = 50;
+    var maxBufferSize = 300;
+    var clientInterval = null;
+    var rebuffer = true;
+    var serverUpdates = 1;
+    var clientUpdates = 30;
+	
+	//update graph 
+    function repaintPressureGraph() {
+			//console.log(buffer);
+             repaintPressureGraph.plot = $.plot("#graphPressure",bufferPressure, {
+                series: {
+                    shadowSize: 0	// Drawing is faster without shadows
+                },
+               
+                xaxis: {
+                    show: false
+                }
+            });
     }
+	
+	var countPressure=0;
+	/*
+     * Receiving data from the server
+     */
+    socket.on('sendPressure', function (data) {
+        var recievedData = [];
+			for(var i=0; i<data.message.length; i++){
 
-    // Zip the generated y values with the x values
+				countPressure=countPressure+1;
+				recievedData.push([countPressure,data.message[i].pressure]);
+			}
+			//shift data so that it doesn't stack
+			bufferPressure.shift();
+            bufferPressure.push(recievedData);
+    });
 
-    var res = [];
-    for (var i = 0; i < data.length; ++i) {
-      res.push([i, data[i]])
-    }
+	//Client side, wake up an _independent_ amount of time
+    //from the server and try to repaint.  This gives us a smooth
+    //animation and nothing jerky.  You really don't want to put
+    //it within the socket call.  Let that "buffer" the data
+    //instead.
 
-    return res;
-  }
-
-  // Set up the control widget
-
-  var updateInterval = 30;
-
-  var plot = $.plot("#graphWind", [ getRandomData() ], {
-    series: {
-      shadowSize: 0	// Drawing is faster without shadows
-    },
-    yaxis: {
-      min: 0,
-      max: 100
-    },
-    xaxis: {
-      show: false
-    }
-  });
-
-  function update() {
-
-    plot.setData([getRandomData()]);
-
-    // Since the axes don't change, we don't need to call plot.setupGrid()
-
-    plot.draw();
-    setTimeout(update, updateInterval);
-  }
-
-  update();
-
-  // Add the Flot version string to the footer
+    clientInterval = setInterval(function () {
+        repaintPressureGraph();
+    },clientUpdates);
+	
+	
+	socket.on('sendPressureMessage',function (prediction) {
+		document.getElementById("pressureAdvice").innerHTML = prediction.message;
+	});
 
 });
 
 var btn1 = document.getElementById("btnTemp");
 var btn2 = document.getElementById("btnSolar");
-var btn3 = document.getElementById("btnRain");
-var btn4 = document.getElementById("btnWind");
+var btn3 = document.getElementById("btnHumidity");
+var btn4 = document.getElementById("btnPressure");
 
 // Get the <span> element that closes the modal
 var span0 = document.getElementsByClassName("close")[0];

@@ -1,14 +1,8 @@
-/**
- * Description:
- * This script is the Node.js server for WSNdemo.  It creates a server and ...
- */
 
 /**
  * Module dependencies.
  */
  
- 
- //https://github.com/skylarstein/pi-weather-station
 
 var express = require('express')
     , http = require('http')
@@ -19,10 +13,8 @@ var express = require('express')
     , events = require('events')
     , EventEmitter = require('events').EventEmitter
     , path = require('path')
-    //, favicon = require('serve-favicon')
     , logger = require('morgan')
     , errorhandler = require('errorhandler')
-    //, cookieParser = require('cookie-parser')
     , ip = require('ip')
     , bodyParser = require('body-parser')
     , util = require('util')
@@ -31,6 +23,7 @@ var express = require('express')
 var sys = require('sys');
 const sqlite3 = require('sqlite3').verbose();  //database SQLite
 var sensorMod = require("./libs/sensor.js");	//sensor functions
+var spawn = require("child_process").spawn;
 
 
 //==========================================================
@@ -40,7 +33,7 @@ var sqliteDB = require("./db/sqliteDB.js");
 //==========================================================
 
 // all environments
-app.set('port', process.env.PORT || 3000); 
+app.set('port', process.env.PORT || 4000); 
 // Using the .html extension instead of
 // having to name the views as *.ejs
 app.engine('.html', require('ejs').__express);
@@ -57,7 +50,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //=========================User Setting Variables=============================================
 var tagUuid = "247189e88004";		//default UUID
 var eventId = 1;
-var twitterInterval = 60;	//default minutes
+var twitterInterval = 120000;	//default 1 hour (3600000)
 var currentTag = null;
 //============================================================================================
 
@@ -69,9 +62,17 @@ io.on('connection', function (socket) {
 
 	// when the client emits 'save data', this listens and executes
 	socket.on('save data', function (data) {
-		// we tell the client to execute 'new message'
-		console.log("MESSAGE:"+data.uuid);
-		//TODO: save data to database and set variables
+		// check if edit boxes are empty
+		if(data.uuid=="" || data.twitterInterval=="" || data.location=="" || data.eventName==""){
+			io.emit('error', { message: "ERROR: Unable to save, some values are empty" });
+		}else{
+			currentTag=data.uuid;
+			twitterInterval = data.twitterInterval;
+			sqliteDB.insertEventData(db,data.eventName,data.location);	
+			sqliteDB.readAllRows(db,"Event");
+		}
+		console.log("UUID:"+data.uuid);
+		
 	});
   
   
@@ -87,16 +88,43 @@ io.on('connection', function (socket) {
 	});
   
     // Client wants to stop Sensors
-	socket.on('stop sensors', function () {
+	socket.on('stop sensors', function (interval) {
 		if(currentTag==null){
 			//Send error to browser as there was not tag set
-			io.emit('error', { message: "ERROR: sensors were not started" });
+			//setInterval(sendTwitts, interval);
+			io.emit('error', { message: "ERROR: sensor tag cannot be stopped if it was never started" });
 		}else{
-			sensorMod.disableSensors(tag);
+			sensorMod.disableSensors(currentTag);
 		}
 		
 	});
 	
+// GET PREDICTION MESSAGES
+	function initHumidityMessage(){
+		getHumidityMessage(function callbackMessage(result){
+			io.emit('sendHumidityMessage', { message: result });
+		});
+	}
+	
+	function initLuxMessage(){
+		getLuxMessage(function callbackMessage(result){
+			io.emit('sendLuxMessage', { message: result });
+		});
+	}
+	
+	function initTempMessage(){
+		getTempMessage(function callbackMessage(result){
+			io.emit('sendTemperatureMessage', { message: result });
+		});
+	}
+	
+	function initPressureMessage(){
+		getPressureMessage(function callbackMessage(result){
+			io.emit('sendPressureMessage', { message: result });
+		});
+	}
+	
+// END OF PREDICTION MESSAGES
 	
 	function sendTemperature(){
 		sqliteDB.getHumidityTemp(db,1,function callback(err,results){
@@ -107,6 +135,7 @@ io.on('connection', function (socket) {
 		});
 	}
 	
+	
 	function sendLux(){
 		sqliteDB.getLux(db,1,function callback(err,results){
 			if(err)
@@ -116,9 +145,24 @@ io.on('connection', function (socket) {
 		});
 	}
 	
+	function sendPressure(){
+		sqliteDB.getPressure(db,1,function callback(err,results){
+			if(err)
+				throw err;
+			else
+				io.emit('sendPressure', { message: results });
+		});
+	}
+	
 	setInterval(sendLux, 10000);
 	setInterval(sendTemperature, 10000);
-
+	setInterval(sendPressure, 10000);
+	
+	//send predictions every minute
+	setInterval(initLuxMessage,10000);
+	setInterval(initHumidityMessage,10000);
+	setInterval(initTempMessage,10000);
+	setInterval(initPressureMessage,10000);
   
 });
 
@@ -127,10 +171,111 @@ function sendTagData() {
     io.emit('sensor update', { message: "hello friend" });
 }
 
-// Send current time every 10 secs
-//setInterval(sendTagData, 10000);
+// send a twitt
+function sendTwitts(){
+	console.log("sending twitt")
 
-//=============================================================================
+	getPressureMessage(function callbackMessage(message){
+		spawn('python',["/www/weather_prediction_system/libs/twitter_plugin.py", message]);
+	});
+	
+	getLuxMessage(function callbackMessage(message){
+		spawn('python',["/www/weather_prediction_system/libs/twitter_plugin.py", message]);
+	});
+	
+	getTempMessage(function callbackMessage(message){
+		spawn('python',["/www/weather_prediction_system/libs/twitter_plugin.py", message]);
+	});
+	
+	getHumidityMessage(function callbackMessage(message){
+		spawn('python',["/www/weather_prediction_system/libs/twitter_plugin.py", message]);
+	});
+	
+}
+
+//============================= WORK OUT THE PREDICTION MESSAGES =========================================
+function getLuxMessage(callbackMessage){
+	sqliteDB.getTableContent(db,"Luxometer",1,function callback(err,result){
+			if(err)
+				throw err;
+			else
+				console.log(result[0].lux);
+				if(result[0].lux<100){
+					console.log("Event is indoors, low lighting");
+					callbackMessage("Event is indoors, low lighting");
+				}else if(result[0].lux>100 && result[0].lux<500){
+					console.log("Event is indoors, away from direct sunlight");
+					callbackMessage("Event is indoors, away from direct sunlight");
+				}else{
+					console.log("Event is outside and its sunny, wear sunglasses, hat and sunscreen");
+					callbackMessage("Event is outside and its sunny, wear sunglasses, hat and sunscreen");
+				}
+		});
+}
+	
+function getTempMessage(callbackMessage){
+	sqliteDB.getTableContent(db,"Humidity",1,function callback(err,result){
+			if(err)
+				throw err;
+			else
+				console.log(result[0].temperature);
+				if(result[0].temperature<16){
+					console.log("It can get chilly, wear a jacket");
+					callbackMessage("It can get chilly, wear a jacket");
+				}else if(result[0].temperature >16 && result[0].temperature< 32){
+					
+					console.log("Temperature is nice and warm");
+					callbackMessage("Temperature is nice and warm");
+				}else{
+					
+					console.log("It is a hot day, bring water ");
+					callbackMessage("It is a hot day, bring water");
+				}
+		});
+}
+
+function getHumidityMessage(callbackMessage){
+	sqliteDB.getTableContent(db,"Humidity",1,function callback(err,result){
+			if(err)
+				throw err;
+			else
+				console.log(result[0].humidity);
+				if(result[0].humidity<39){
+					console.log("Low humidity, hardly noticiable");
+					callbackMessage("Low humidity, hardly noticiable");
+				}else if(result[0].humidity>39 && result[0].humidity<55){
+					
+					console.log("Event venue is humid, expect to sweat so drink more water");
+					callbackMessage("Event venue is humid, expect to sweat so drink more water");
+				}else{
+					console.log("Event venue is very humid, physical exertion is not recomended");
+					callbackMessage("Event venue is very humid, physical exertion is not recomended");
+				}
+		});
+}
+
+
+function getPressureMessage(callbackMessage){
+	sqliteDB.getTableContent(db,"Barometer",1,function callback(err,result){
+			if(err)
+				throw err;
+			else
+				console.log(result[0].pressure);
+				if(result[0].pressure<1000){
+					console.log("Good chance of rain so protect your phones");
+					callbackMessage("Good chance of rain so protect your phones");
+				}else if(result[0].pressure> 1000 && result[0].pressure< 1010){
+					
+					console.log("Slight chance of rain ");
+					callbackMessage("Slight chance of rain ");
+				}else{
+					console.log("Expect calm weather tonight");
+					callbackMessage("Expect calm weather tonight");
+				}
+		});
+}
+
+//============================= WORK OUT THE PREDICTION MESSAGES END =========================================
 
 
 //link views
@@ -169,6 +314,7 @@ db = new sqlite3.Database(sensorTagDb, (err) => {
 		}
 		sqliteDB.createTables(db,function callback(){
 			console.log("DB done initializing");
+			setInterval(sendTwitts, twitterInterval); //start twitter notifications
 		});
 	
 	});
@@ -183,8 +329,6 @@ function db_done(){
 			console.log(results);
 	});
 }
-
-//
 
 //==========================================================
 
@@ -207,6 +351,7 @@ function startSensors(evenId,tagUuid){
 
 	function onDiscover(tag)  {  
 		// when you disconnect from a tag, exit the program:
+		io.emit('error', { message: "Sensor tag started" });
 		currentTag = tag;
 		
 		tag.on('disconnect', function() {
@@ -217,19 +362,11 @@ function startSensors(evenId,tagUuid){
 		function connectAndSetUpMe() {          // attempt to connect to the tag
 			console.log('connectAndSetUp');
 			sensorMod.connect(tag,db,evenId);	//should have event id instead of 1
-			
-			//Stop simulations
-			/*setTimeout(function () {
-				console.log('timeout started')
-				sensorMod.disableSensors(tag)
-				sqliteDB.readAllRows(db,"Luxometer");
-				sqliteDB.readAllRows(db,"Barometer");
-				sqliteDB.readAllRows(db,"Humidity");
-			}, 10000)*/
 		
 		}
 		connectAndSetUpMe();
 	}
 }
+
 
 
