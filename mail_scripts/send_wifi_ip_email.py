@@ -36,14 +36,14 @@ class Gmail(object):
             "From: " + self.email,
             "Subject: " + subject,
             "To: " + self.email,
-            "Cc: " + "12428330@uts.edu.au", 
+            "Cc: " + "anexampleemail@gmail.com", 
             "MIME-Version: 1.0",
            "Content-Type: text/html"]
         headers = "\r\n".join(headers)
         try:
             self.session.sendmail(
             self.email,	#FROM
-            self.email + ", ithai@sice.com.au", #TO + CC
+            self.email + ", anexampleemail2@gmail.com", #TO + CC
             headers + "\r\n\r\n" + body)
             print(headers + "\r\n\r\n" + body)
             print ("Successfully sent email")
@@ -67,7 +67,7 @@ for timeout in [60,120,180,240]:
 print(ips)
 
 try:
-    gm = Gmail('ilya.thai1@gmail.com', base64.b64decode("dGVkbW9zYnkxIQ==\n"))
+    gm = Gmail('anexampleemail3@gmail.com', base64.b64decode("someb64passcode"))
     gm.send_message('Wifi config', ips)
 except smtplib.SMTPException:
        print ("Error: google authentication ERROR")
